@@ -1,0 +1,123 @@
+CREATE TABLE commands for "Breaking Bad" series database
+
+Characters Table
+CREATE TABLE Characters (
+    CharacterID INT PRIMARY KEY,
+    FirstName VARCHAR(255),
+    LastName VARCHAR(255),
+    DateOfBirth DATE,
+    Gender VARCHAR(10),
+    Occupation VARCHAR(255),
+    Description TEXT
+);
+
+Episodes Table
+CREATE TABLE Episodes (
+    EpisodeID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    Season INT,
+    Airdate DATE,
+    Description TEXT
+);
+
+Locations Table
+CREATE TABLE Locations (
+    LocationID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Type VARCHAR(255),
+    Description TEXT
+);
+
+Drugs Table
+CREATE TABLE Drugs (
+    DrugID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    ChemicalFormula VARCHAR(255),
+    Description TEXT
+);
+
+Events Table
+CREATE TABLE Events (
+    EventID INT PRIMARY KEY,
+    Date DATE,
+    Description TEXT
+);
+
+Character - Appears In - Episode Relationship Table
+CREATE TABLE CharacterEpisode (
+    AppearanceID INT PRIMARY KEY,
+    CharacterID INT,
+    EpisodeID INT,
+    Role VARCHAR(50),
+    FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID),
+    FOREIGN KEY (EpisodeID) REFERENCES Episodes(EpisodeID)
+);
+
+Character - Has Occupation Table
+CREATE TABLE CharacterOccupation (
+    CharacterID INT PRIMARY KEY,
+    Occupation VARCHAR(255)
+);
+
+Character - Associated With Location Relationship Table
+CREATE TABLE CharacterLocation (
+    AssociationID INT PRIMARY KEY,
+    CharacterID INT,
+    LocationID INT,
+    FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID),
+    FOREIGN KEY (LocationID) REFERENCES Locations(LocationID)
+);
+
+Character - Involved With Drug Relationship Table
+CREATE TABLE CharacterDrug (
+    InvolvementID INT PRIMARY KEY,
+    CharacterID INT,
+    DrugID INT,
+    Role VARCHAR(50),
+    FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID),
+    FOREIGN KEY (DrugID) REFERENCES Drugs(DrugID)
+);
+
+Events - Associated With Characters and Episodes Relationship Table
+CREATE TABLE EventAssociation (
+    EventAssociationID INT PRIMARY KEY,
+    EventID INT,
+    CharacterID INT,
+    EpisodeID INT,
+    FOREIGN KEY (EventID) REFERENCES Events(EventID),
+    FOREIGN KEY (CharacterID) REFERENCES Characters(CharacterID),
+    FOREIGN KEY (EpisodeID) REFERENCES Episodes(EpisodeID)
+);
+
+INSERT commands for dummy data
+
+-- Characters
+INSERT INTO Characters (CharacterID, FirstName, LastName, DateOfBirth, Gender, Occupation, Description)
+VALUES
+    (1, 'Walter', 'White', '1959-02-07', 'Male', 'Chemistry Teacher', 'High school chemistry teacher, turned methamphetamine manufacturer'),
+    (2, 'Jesse', 'Pinkman', '1984-01-31', 'Male', 'Drug Dealer', 'Former student and partner of Walter White'),
+    (3, 'Skyler', 'White', '1970-08-11', 'Female', 'Accountant', 'Walter White''s wife, initially unaware of his criminal activities');
+
+Episodes (Sample data, add more)
+INSERT INTO Episodes (EpisodeID, Title, Season, Airdate, Description)
+VALUES
+    (1, 'Pilot', 1, '2008-01-20', 'The series pilot episode, introducing Walter White''s transformation'),
+    (2, 'Cat''s in the Bag...', 1, '2008-01-27', 'Walter and Jesse face challenges in their new drug business');
+
+Locations (Sample data, add more)
+INSERT INTO Locations (LocationID, Name, Type, Description)
+VALUES
+    (1, 'White Residence', 'Residence', 'The home of Walter White and his family'),
+    (2, 'Car Wash', 'Business', 'Where Walter White works and later launders money');
+
+Drugs (Sample data, add more)
+INSERT INTO Drugs (DrugID, Name, ChemicalFormula, Description)
+VALUES
+    (1, 'Blue Meth', 'C10H15N', 'A highly pure and potent methamphetamine'),
+    (2, 'Tuco''s Blue', 'C12H15N', 'A rival''s version of the "blue" meth');
+
+Events (Sample data, add more)
+INSERT INTO Events (EventID, Date, Description)
+VALUES
+    (1, '2008-03-01', 'Walter White''s first meth sale'),
+    (2, '2008-05-15', 'Skyler discovers Walter''s secret');
